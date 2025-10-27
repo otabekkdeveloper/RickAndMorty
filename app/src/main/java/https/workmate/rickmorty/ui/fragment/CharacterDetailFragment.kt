@@ -5,40 +5,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.appbar.MaterialToolbar
 import https.workmate.rickmorty.R
 import https.workmate.rickmorty.data.api.RickAndMortyApiService
 import https.workmate.rickmorty.data.db.AppDatabase
 import https.workmate.rickmorty.data.models.Character
 import https.workmate.rickmorty.data.repository.CharacterRepository
+import https.workmate.rickmorty.databinding.FragmentCharacterDetailBinding
 import kotlinx.coroutines.launch
 
 class CharacterDetailFragment : Fragment() {
 
+    private var _binding: FragmentCharacterDetailBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var repository: CharacterRepository
     private var characterId: Int = -1
-    private lateinit var toolbar: MaterialToolbar
-    private lateinit var collapsingToolbar: CollapsingToolbarLayout
-    private lateinit var characterImage: ImageView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var errorText: TextView
-    private lateinit var statusText: TextView
-    private lateinit var statusIndicator: View
-    private lateinit var speciesText: TextView
-    private lateinit var typeText: TextView
-    private lateinit var genderText: TextView
-    private lateinit var originText: TextView
-    private lateinit var locationText: TextView
-    private lateinit var episodesText: TextView
-    private lateinit var createdText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,34 +34,17 @@ class CharacterDetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_character_detail, container, false)
+    ): View {
+        _binding = FragmentCharacterDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViews(view)
         setupRepository()
         setupToolbar()
         loadCharacter()
-    }
-
-    private fun setupViews(view: View) {
-        toolbar = view.findViewById(R.id.toolbar)
-        collapsingToolbar = view.findViewById(R.id.collapsingToolbar)
-        characterImage = view.findViewById(R.id.characterImage)
-        progressBar = view.findViewById(R.id.progressBar)
-        errorText = view.findViewById(R.id.errorText)
-        statusText = view.findViewById(R.id.statusText)
-        statusIndicator = view.findViewById(R.id.statusIndicator)
-        speciesText = view.findViewById(R.id.speciesText)
-        typeText = view.findViewById(R.id.typeText)
-        genderText = view.findViewById(R.id.genderText)
-        originText = view.findViewById(R.id.originText)
-        locationText = view.findViewById(R.id.locationText)
-        episodesText = view.findViewById(R.id.episodesText)
-        createdText = view.findViewById(R.id.createdText)
     }
 
     private fun setupRepository() {
@@ -86,7 +54,7 @@ class CharacterDetailFragment : Fragment() {
     }
 
     private fun setupToolbar() {
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
     }
@@ -101,21 +69,16 @@ class CharacterDetailFragment : Fragment() {
 
         lifecycleScope.launch {
             val character = repository.getCharacterById(characterId)
-
-            if (character != null) {
-                showLoading(false)
-                displayCharacter(character)
-            } else {
-                showLoading(false)
-                showError("Не удалось загрузить персонажа")
-            }
+            showLoading(false)
+            if (character != null) displayCharacter(character)
+            else showError("Не удалось загрузить персонажа")
         }
     }
 
-    private fun displayCharacter(character: Character) {
+    private fun displayCharacter(character: Character) = with(binding) {
         collapsingToolbar.title = character.name
 
-        Glide.with(this)
+        Glide.with(this@CharacterDetailFragment)
             .load(character.image)
             .placeholder(R.drawable.placeholder_character)
             .error(R.drawable.placeholder_character)
@@ -129,11 +92,12 @@ class CharacterDetailFragment : Fragment() {
         if (character.type.isNotEmpty()) {
             typeText.text = character.type
             typeText.visibility = View.VISIBLE
-            view?.findViewById<TextView>(R.id.typeLabel)?.visibility = View.VISIBLE
+            typeLabel.visibility = View.VISIBLE
         } else {
             typeText.visibility = View.GONE
-            view?.findViewById<TextView>(R.id.typeLabel)?.visibility = View.GONE
+            typeLabel.visibility = View.GONE
         }
+
         genderText.text = character.gender
         originText.text = character.origin.name
         locationText.text = character.location.name
@@ -157,14 +121,19 @@ class CharacterDetailFragment : Fragment() {
         }
     }
 
-    private fun showLoading(show: Boolean) {
+    private fun showLoading(show: Boolean) = with(binding) {
         progressBar.visibility = if (show) View.VISIBLE else View.GONE
         errorText.visibility = View.GONE
     }
 
-    private fun showError(message: String) {
+    private fun showError(message: String) = with(binding) {
         errorText.text = message
         errorText.visibility = View.VISIBLE
         progressBar.visibility = View.GONE
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
