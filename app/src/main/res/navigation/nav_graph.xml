@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/charactersFragment">
+
+    <fragment
+        android:id="@+id/charactersFragment"
+        android:name="https.workmate.rickmorty.ui.fragment.CharactersFragment"
+        android:label="Rick and Morty"
+        tools:layout="@layout/fragment_characters">
+
+
+        <action
+            android:id="@+id/action_charactersFragment_to_characterDetailFragment"
+            app:destination="@id/characterDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+
+        <action
+            android:id="@+id/action_charactersFragment_to_filterFragment"
+            app:destination="@id/filterFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_down" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/characterDetailFragment"
+        android:name="https.workmate.rickmorty.ui.fragment.CharacterDetailFragment"
+        android:label="Детали персонажа"
+        tools:layout="@layout/fragment_character_detail">
+
+
+        <argument
+            android:name="characterId"
+            app:argType="integer" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="https.workmate.rickmorty.ui.fragment.FilterFragment"
+        android:label="Фильтры"
+        tools:layout="@layout/fragment_filter" />
+
+</navigation>

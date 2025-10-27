@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Rick&amp;Morty</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Menu -->
+    <string name="search">Поиск</string>
+    <string name="filter">Фильтры</string>
+
+    <!-- Characters Screen -->
+    <string name="no_characters">Нет персонажей</string>
+    <string name="no_characters_found">Персонажи не найдены</string>
+    <string name="character_image">Изображение персонажа</string>
+    <string name="loading">Загрузка…</string>
+    <string name="error_loading">Ошибка загрузки</string>
+    <string name="no_internet">Нет подключения к интернету</string>
+
+    <!-- Character Status -->
+    <string name="status_alive">Живой</string>
+    <string name="status_dead">Мёртвый</string>
+    <string name="status_unknown">Неизвестно</string>
+
+    <!-- Gender -->
+    <string name="gender_male">Мужской</string>
+    <string name="gender_female">Женский</string>
+    <string name="gender_genderless">Без пола</string>
+    <string name="gender_unknown">Неизвестно</string>
+
+    <!-- Filter -->
+    <string name="filter_status">Статус</string>
+    <string name="filter_species">Вид</string>
+    <string name="filter_gender">Пол</string>
+    <string name="apply_filters">Применить</string>
+    <string name="clear_filters">Сбросить</string>
+    <string name="filters">Фильтры</string>
+    <string name="character_name">Имя персонажа</string>
+
+    <!-- Detail -->
+    <string name="character_details">Детали персонажа</string>
+    <string name="origin">Происхождение</string>
+    <string name="location">Местоположение</string>
+    <string name="episodes">Эпизоды</string>
+    <string name="species">Вид</string>
+    <string name="type">Тип</string>
+    <string name="status">Статус</string>
+    <string name="gender">Пол</string>
+
+
+</resources>
